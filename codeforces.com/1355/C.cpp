@@ -11,25 +11,29 @@ int main(){
 
 	int a, b, c, d;
 	cin >> a >> b >> c >> d;
-	
 
-	int x, y, z;
-	int count = 0;
-	for (x = a; x <= b; x++) {
-		for (y = b; y <= c; y++){
-			int l = c, r = d + 1;
-			while(r - l > 1) {
-				z = (l + r) / 2;
-				if (x + y > z)
-					l = z;
-				else
-					r = z;
-			}
-			count += l - c;
-			if (x + y > l)
-				count++;
-		}
+	LL cnt[b + c + 2];
+	for (LL i = 0; i < b + c + 2; i++)
+		cnt[i] = 0;
+
+	for (LL i = a; i <= b ; i++)
+	{
+		cnt[i + b]++;
+		cnt[i + c + 1]--;
 	}
-	cout << count << endl;
+
+	for (LL i = 1; i < b + c + 2; i++)
+		cnt[i] += cnt[i - 1];
+
+	for (LL i = 1; i < b + c + 2; i++)
+		cnt[i] += cnt[i - 1];
+	
+	LL ans = 0;
+	for(LL z = c; z <= d; z++) 
+		if (z <= b + c)
+		 	ans += cnt[b + c + 1] - cnt[z];
+		
+	cout << ans << endl;
+
 }
 
